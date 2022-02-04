@@ -1,9 +1,10 @@
 ifplist := /Library/LaunchDaemons/ruled.io.ifconfig.plist
 init := /Users/bob/.localdev
+BREW_PREFIX := $(shell brew --prefix)
 
-.SILENT: all
+#.SILENT: all
 .PHONY: all
-all: $(init) caddyfile trust $(plist) restart
+all: $(init) caddyfile trust $(ifplist) restart
 
 $(init):
 	echo "Setting up loopback for 127.0.0.2"
@@ -18,7 +19,7 @@ $(init):
 
 caddyfile:
 	echo "Setting Up Custom Caddyfile"
-	cp conf/Caddyfile /usr/local/etc/Caddyfile
+	cp conf/Caddyfile $(BREW_PREFIX)/etc/Caddyfile
 
 $(ifplist):
 	echo "Setting up persistant loopback for 127.0.0.2"
@@ -43,7 +44,6 @@ clean: stop
 	-brew uninstall caddy nss
 	-sudo rm -rf $(ifplist)
 	-rm -rf $(init)
-	-rm -rf $(brew)
-	-rm -rf $(caddyfile)
+	-rm -rf $(BREW_PREFIX)/etc/Caddyfile
 	-echo "" | sudo pfctl -a 'com.apple/localdev' -f -
 	-sudo pfctl -F all -ef /etc/pf.conf
