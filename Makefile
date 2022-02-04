@@ -19,7 +19,7 @@ $(init):
 
 caddyfile:
 	echo "Setting Up Custom Caddyfile"
-	sudo conf/Caddyfile $(BREW_PREFIX)/etc/Caddyfile
+	sudo cp conf/Caddyfile $(BREW_PREFIX)/etc/Caddyfile
 
 $(ifplist):
 	echo "Setting up persistant loopback for 127.0.0.2"
