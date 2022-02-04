@@ -1,0 +1,21 @@
+{
+  http_port 8080
+  https_port 8443
+}
+
+domain.test {
+        bind 127.0.0.2
+        respond "Hello, world!"
+        tls internal
+}
+
+domain2.test {
+    bind 127.0.0.2
+    tls internal
+
+    reverse_proxy 127.0.0.1:8989 {
+		transport http {
+			keepalive 60s
+		}
+	}
+}
