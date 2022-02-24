@@ -1,5 +1,5 @@
 ifplist := /Library/LaunchDaemons/ruled.io.ifconfig.plist
-init := /Users/bob/.localdev
+init := $(HOME)/.localdev
 BREW_PREFIX := $(shell brew --prefix)
 
 #.SILENT: all
@@ -19,14 +19,14 @@ $(init):
 
 caddyfile:
 	echo "Setting Up Custom Caddyfile"
-	cp conf/Caddyfile $(BREW_PREFIX)/etc/Caddyfile
+	sudo cp conf/Caddyfile $(BREW_PREFIX)/etc/Caddyfile
 
 $(ifplist):
 	echo "Setting up persistant loopback for 127.0.0.2"
 	sudo cp conf/ifconfig.plist $(ifplist)
 
 logs:
-	tail -f /usr/local/var/log/caddy.log
+	tail -f $(BREW_PREFIX)/var/log/caddy.log
 
 trust:
 	echo "Setting Up Caddy TLS Trust"
